@@ -18,6 +18,8 @@ public class Main {
         ArrayList left = data.getLeft();
         ArrayList<ArrayList> right = data.getRight();
         
+        data.showProduct();
+        
         First first = new First(name, left, right);
         
         System.out.print("terminal :- ");

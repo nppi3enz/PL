@@ -71,6 +71,20 @@ public class Input{
             return right;
         }
         
+        public void showProduct(){
+            //System.out.println(name.toString());
+            for(int index =0;index<left.size();index++){
+	        System.out.print(name.get(left.get(index))+"=>");
+                for(int j=0;j<right.get(index).size();j++) {
+                    int temp = (int)right.get(index).get(j);
+                    System.out.print(name.get(temp)+" ");
+                }
+                System.out.println();
+                
+            }
+            
+        }
+        
 
 }
 	

@@ -38,7 +38,7 @@ public class First{
         for(int L=0;L<right.size();L++){
             
             for(int R=0;R<right.get(L).size();R++){
-                if (!terminal.contains(right.get(L).get(R))){
+                if (!terminal.contains(right.get(L).get(R))  && !nonterminal.contains(right.get(L).get(R))){
                     nonterminal.add((int)right.get(L).get(R));
                 }
                 
