@@ -20,13 +20,16 @@ public class Main {
         
         //data.showProduct();
         
-        First first = new First(name, left, right);
+        First step2 = new First(name, left, right);
         
-        System.out.print("terminal :- ");
-        first.findterminal(left,name);
         System.out.print("non-terminal :- ");
-        first.findnonterminal(right,name);
-        first.findingFirst(name,left,right) ;
+        step2.findnonterminal(left,name);
+        System.out.print("terminal :- ");
+        step2.findterminal(right,name);
+        ArrayList<ArrayList> first = step2.findingFirst(name,left,right);
+        step2.findingFollow(name,left,right,first);
+       
+                
         
     }
     

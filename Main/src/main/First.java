@@ -12,8 +12,8 @@ import java.util.Stack;
  */
 public class First{
     Stack v = new Stack();
-    static ArrayList<Integer> terminal =new ArrayList<Integer>();
     static ArrayList<Integer> nonterminal =new ArrayList<Integer>();
+    static ArrayList<Integer> terminal =new ArrayList<Integer>();
     
     private ArrayList<String> name;
     private ArrayList<Integer> left; 
@@ -24,41 +24,39 @@ public class First{
         this.name = name;
     }
     
-    static ArrayList findterminal(ArrayList left,ArrayList item){
+    static ArrayList findnonterminal(ArrayList left,ArrayList item){
         for(int a=0;a<left.size();a++){
-            if(!terminal.contains(left.get(a))){
-                terminal.add((int)left.get(a));
+            if(!nonterminal.contains(left.get(a))){
+                nonterminal.add((int)left.get(a));
             }
-        }
-        System.out.println(terminal.toString());
-        return terminal;
-    }
-    
-    static ArrayList findnonterminal(ArrayList<ArrayList> right,ArrayList item){
-        for(int L=0;L<right.size();L++){
-            
-            for(int R=0;R<right.get(L).size();R++){
-                if (!terminal.contains(right.get(L).get(R))  && !nonterminal.contains(right.get(L).get(R))){
-                    nonterminal.add((int)right.get(L).get(R));
-                }
-                
-                
-            }
-            
         }
         System.out.println(nonterminal.toString());
         return nonterminal;
     }
     
-    static void findingFirst(ArrayList name,ArrayList left,ArrayList<ArrayList> right)       
+    static ArrayList findterminal(ArrayList<ArrayList> right,ArrayList item){
+        for(int L=0;L<right.size();L++){
+            
+            for(int R=0;R<right.get(L).size();R++){
+                if (!nonterminal.contains(right.get(L).get(R))  && !terminal.contains(right.get(L).get(R))){
+                    terminal.add((int)right.get(L).get(R));
+                }
+            }
+            
+        }
+        System.out.println(terminal.toString());
+        return terminal;
+    }
+    
+    static ArrayList<ArrayList> findingFirst(ArrayList name,ArrayList left,ArrayList<ArrayList> right)       
     {
         
         ArrayList<ArrayList> first = new ArrayList<>();
         
-        for(int a =0;a<name.size();a++){  //terminals a,First(a)={a} nonterminals A,First(A)={}
+        for(int a =0;a<name.size();a++){  //nonterminals a,First(a)={a} terminals A,First(A)={}
             first.add(new ArrayList<Integer>());
            
-            if(nonterminal.contains(a)){
+            if(terminal.contains(a)){
                 first.get(a).add(a);
             }}
          //System.out.println(first.toString());
@@ -125,7 +123,7 @@ public class First{
             
         }
         for(int i=0;i<first.size();i++){
-            if(terminal.contains(i)){
+            if(nonterminal.contains(i)){
             System.out.print("First("+name.get(i)+") = "); 
             System.out.print("{");
             for(int j=0;j<first.get(i).size();j++){
@@ -136,6 +134,135 @@ public class First{
             System.out.println();
         }
         }
+        return first;
     }
+     static void findingFollow(ArrayList name,ArrayList left,ArrayList<ArrayList> right,ArrayList<ArrayList> first){
+          ArrayList<ArrayList> follow = new ArrayList<>();
+          for(int a =0;a<name.size();a++){  //create empty Arraylist follow
+            follow.add(new ArrayList<Integer>());
+           }
+          
+                            int indexEmpty = -1; //where is empty string?
+                                for(int b =0;b<name.size();b++){
+                                    if(name.get(b).equals("empty"))
+                                    {   indexEmpty = b;
+                                        System.out.println("Empty at "+b );
+                                    }}
+                            int $ = -1; //where is empty string?
+                                for(int b =0;b<name.size();b++){
+                                    if(name.get(b).equals("$"))
+                                    {   $ = b;
+                                        System.out.println("$ at "+b );
+                                    }}
+        
+        follow.get(0).add($);//Follow(Start Symbol) = {$}
+        System.out.println("follow "+follow.toString());
+         
+         for(int a=0;a<left.size();a++){//for each production A=>A1 A2...An
+             int A =(int)left.get(a);//find A in right
+                for(int i =0;i<right.size();i++) 
+                {   for(int j=0;j<right.get(i).size();j++)
+                    {   if(right.get(i).get(j).equals(A)) //found A in right
+                        {   
+                                
+                                int addfollow = (int)right.get(i).get(j);
+                                
+                                if(j==right.get(i).size()-1)
+                                { //add findFollow to addTo
+                                    int findFollow = (int)left.get(i);
+                                    int addTo   = addfollow;
+                                    
+                                    int max2 = follow.get(findFollow).size();
+                                    int count2 =0;
+    
+                                    while(count2<max2)
+                                        {
+                                            if(!follow.get(addTo).contains(follow.get(findFollow).get(count2)))
+                                                {  
+                                                    follow.get(addTo).add(follow.get(findFollow).get(count2));
+                                                    
+                                                }
+                                               count2++;
+                                        }
+
+                                }
+                                int position =j+1;
+                                while(position<right.get(i).size())
+                                {   
+
+                                    
+                                    int findfirst =(int)right.get(i).get(position);
+                                    
+                                
+                                        int max = first.get(findfirst).size();
+                                        int count =0;
+                                            while(count<max)
+                                            { if(!follow.get(addfollow).contains(first.get(findfirst).get(count)))
+                                                if(!first.get(findfirst).get(count).equals(indexEmpty))
+                                                {   follow.get(addfollow).add(first.get(findfirst).get(count));
+                                                    
+                                                }
+                                            count++;
+                                            }
+                                    
+
+                                    if(!first.get(findfirst).contains(indexEmpty))
+                                    {//dont have empty add findfirst in addfollow
+                                        position = Integer.MAX_VALUE;
+                                    }
+                                    else{//first have empty string
+                                        position++;
+                                            if(position==right.get(i).size()-1)
+                                                {   int findFollow =(int)left.get(i);
+                                                    int addTo   = addfollow;
+                                            
+                                                    int max2 = follow.get(findFollow).size();
+                                                    int count2 =0;
+    
+                                                    while(count2<max2)
+                                                        {
+                                                            
+                                                            if(!follow.get(addTo).contains(follow.get(findFollow).get(count2)))
+                                                        {  System.out.println(count);
+                                                            System.out.println("to"+follow.get(addTo).toString());
+                                                            System.out.println("add"+follow.get(findFollow).toString());
+                                                            
+                                                            follow.get(addTo).add(follow.get(findFollow).get(count2));
+                                                            
+                                                            
+                                                            System.out.println("Follow : "+name.get(findFollow));
+                                                            System.out.println(follow.get(addTo).toString());
+                                                        }
+                                                    count2++;
+                                                        }
+                                            
+                                        }
+                                        
+                                        }
+   
+                                    
+                                   
+                                    
+                                }
+                                
+                        
+                        }
+                        
+                    }    
+                }
+         }
+         for(int i=0;i<follow.size();i++){
+            if(nonterminal.contains(i)){
+            System.out.print("Follow("+name.get(i)+") \t\t : "); 
+            System.out.print("{");
+            for(int j=0;j<follow.get(i).size();j++){
+                if(j!=0){System.out.print(",");}
+                System.out.print(name.get((int)follow.get(i).get(j)));
+            }
+            System.out.print("}");
+            System.out.println();
+        }
+        }
+     }     
     
 }
