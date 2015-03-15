@@ -18,7 +18,7 @@ public class Main {
         ArrayList left = data.getLeft();
         ArrayList<ArrayList> right = data.getRight();
         
-        data.showProduct();
+        //data.showProduct();
         
         First first = new First(name, left, right);
         
