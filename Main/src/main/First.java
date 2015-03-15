@@ -49,39 +49,65 @@ public class First {
             if(nonterminal.contains(a)){
                 first.get(a).add(a);
             }}
-         System.out.println(first.toString());
+         //System.out.println(first.toString());
          
-         int indexEmpty; //where is empty string?
+         int indexEmpty = -1; //where is empty string?
          for(int b =0;b<name.size();b++){
+             
              if(name.get(b).equals("empty")){
                 indexEmpty = b;
                 System.out.println("Empty at "+b );
          }}
+        
          
         int change =1;//have change >0,not change =0
         while(change!=0){
             change =0;
                 for(int a=0;a<left.size();a++){ //for all grammar
                     int first0 =(int)right.get(a).get(0); //at index0 of right
-                        System.out.print(left.get(a)+"=>");
+                        /*System.out.print(left.get(a)+"=>");
                         System.out.print(first0+" ");
                         
-                        System.out.println(first.get(first0).toString());
+                        System.out.println(first.get(first0).toString());*/
                         for(int numFirst=0;numFirst<first.get(first0).size();numFirst++){
                             int obj = (int)first.get(first0).get(numFirst);
-                            System.out.println(obj);
+                            //System.out.println(obj);
                             
                             if(!first.get((int)left.get(a)).contains(obj)){
                                 first.get((int)left.get(a)).add(obj);
                                 change=1;
                             
                             }
+                            
                         }
+                        
          
                 }
-                System.out.println(first.toString());
-
-            
+                //check contain empty string 
+                for(int a=0;a<left.size();a++){ //loop grammar
+                    int position=0;//position of right that use to find first contain empty string
+                    int findin = (int)right.get(a).get(position);
+                    int addin;
+                    //System.out.println(left.get(a)+"=>"+right.get(a).get(position));
+                    
+                    if(first.get(findin).contains(indexEmpty)) //position 0 of right has empty string
+                    {   if(position+1<right.get(a).size()){ // have next object 
+                        position++;
+                            findin = (int)right.get(a).get(position);
+                            addin = (int)left.get(a);
+                            System.out.println("addin"+addin);
+                            int max = first.get(findin).size();
+                                int i=0;
+                                while(i<max){
+                                    if(!first.get(addin).contains(first.get(findin).get(i))){
+                                    first.get(addin).add(first.get(findin).get(i));}
+                                    i++;
+                                    
+                                }
+                        System.out.println("poisition : "+position);
+                    }
+                    }
+                    }
         }
         for(int i=0;i<first.size();i++){
             if(terminal.contains(i)){
@@ -94,8 +120,6 @@ public class First {
             System.out.print("}");
             System.out.println();
         }}
-         
-        
     }
     
 }
