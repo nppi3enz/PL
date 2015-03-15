@@ -17,14 +17,14 @@ public class First{
     
     private ArrayList<String> name;
     private ArrayList<Integer> left; 
-    private ArrayList<ArrayList> right;
-    First(ArrayList<String> name, ArrayList<Integer> left,ArrayList<ArrayList> right){
+    private ArrayList<ArrayList<Integer>> right;
+    First(ArrayList<String> name, ArrayList<Integer> left,ArrayList<ArrayList<Integer>> right){
         this.left = left;
         this.right = right;
         this.name = name;
     }
     
-    static ArrayList findnonterminal(ArrayList left,ArrayList item){
+    static ArrayList<Integer> findnonterminal(ArrayList left,ArrayList item){
         for(int a=0;a<left.size();a++){
             if(!nonterminal.contains(left.get(a))){
                 nonterminal.add((int)left.get(a));
@@ -34,7 +34,7 @@ public class First{
         return nonterminal;
     }
     
-    static ArrayList findterminal(ArrayList<ArrayList> right,ArrayList item){
+    static ArrayList<Integer> findterminal(ArrayList<ArrayList<Integer>> right,ArrayList item){
         for(int L=0;L<right.size();L++){
             
             for(int R=0;R<right.get(L).size();R++){
@@ -48,9 +48,9 @@ public class First{
         return terminal;
     }
     
-    static ArrayList<ArrayList> findingFirst(ArrayList name,ArrayList left,ArrayList<ArrayList> right)       
+    static ArrayList<ArrayList<Integer>> findingFirst(ArrayList name,ArrayList left,ArrayList<ArrayList<Integer>> right)       
     {
-        ArrayList<ArrayList> first = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> first = new ArrayList<>();
         
         for(int a =0;a<name.size();a++){  //nonterminals a,First(a)={a} terminals A,First(A)={}
             first.add(new ArrayList<Integer>());
@@ -135,8 +135,8 @@ public class First{
         }
         return first;
     }
-     static void findingFollow(ArrayList name,ArrayList left,ArrayList<ArrayList> right,ArrayList<ArrayList> first){
-          ArrayList<ArrayList> follow = new ArrayList<>();
+    static ArrayList<ArrayList<Integer>> findingFollow(ArrayList name,ArrayList left,ArrayList<ArrayList<Integer>> right,ArrayList<ArrayList<Integer>> first){
+          ArrayList<ArrayList<Integer>> follow = new ArrayList<>();
           for(int a =0;a<name.size();a++){  //create empty Arraylist follow
             follow.add(new ArrayList<Integer>());
            }
@@ -155,9 +155,12 @@ public class First{
                                     }}
         
         follow.get(0).add($);//Follow(Start Symbol) = {$}
-        System.out.println("follow "+follow.toString());
-         
-         for(int a=0;a<left.size();a++){//for each production A=>A1 A2...An
+        //System.out.println("follow "+follow.toString());
+        int  change =1;
+         while(change!=0){
+             
+         change =0;
+         for(int a=0;a<left.size();a++){//for each production A=>A1 A2...An 
              int A =(int)left.get(a);//find A in right
                 for(int i =0;i<right.size();i++) 
                 {   for(int j=0;j<right.get(i).size();j++)
@@ -179,7 +182,8 @@ public class First{
                                             if(!follow.get(addTo).contains(follow.get(findFollow).get(count2)))
                                                 {  
                                                     follow.get(addTo).add(follow.get(findFollow).get(count2));
-                                                    
+                                                    change++;
+                                                   
                                                 }
                                                count2++;
                                         }
@@ -199,6 +203,7 @@ public class First{
                                             { if(!follow.get(addfollow).contains(first.get(findfirst).get(count)))
                                                 if(!first.get(findfirst).get(count).equals(indexEmpty))
                                                 {   follow.get(addfollow).add(first.get(findfirst).get(count));
+                                                change++;
                                                     
                                                 }
                                             count++;
@@ -211,9 +216,12 @@ public class First{
                                     }
                                     else{//first have empty string
                                         position++;
-                                            if(position==right.get(i).size()-1)
-                                                {   int findFollow =(int)left.get(i);
+                                            /*if(position==right.get(i).size()-1)
+                                                {   System.out.println(left.get(i)+"=>"+right.get(i).toString());
+                                                    
+                                                    int findFollow =(int)left.get(i);
                                                     int addTo   = addfollow;
+                                                    
                                             
                                                     int max2 = follow.get(findFollow).size();
                                                     int count2 =0;
@@ -222,20 +230,16 @@ public class First{
                                                         {
                                                             
                                                             if(!follow.get(addTo).contains(follow.get(findFollow).get(count2)))
-                                                        {  System.out.println(count);
-                                                            System.out.println("to"+follow.get(addTo).toString());
-                                                            System.out.println("add"+follow.get(findFollow).toString());
-                                                            
+                                                        {  
                                                             follow.get(addTo).add(follow.get(findFollow).get(count2));
                                                             
                                                             
-                                                            System.out.println("Follow : "+name.get(findFollow));
-                                                            System.out.println(follow.get(addTo).toString());
+                                                           
                                                         }
-                                                    count2++;
+                                                            count2++;
                                                         }
                                             
-                                        }
+                                        }*/
                                         
                                         }
    
@@ -247,21 +251,24 @@ public class First{
                         
                         }
                         
-                    }    
-                }
+                    } }
+                
          }
-         for(int i=0;i<follow.size();i++){
-            if(nonterminal.contains(i)){
-            System.out.print("Follow("+name.get(i)+") \t\t : "); 
-            System.out.print("{");
-            for(int j=0;j<follow.get(i).size();j++){
-                if(j!=0){System.out.print(",");}
-                System.out.print(name.get((int)follow.get(i).get(j)));
-            }
-            System.out.print("}");
-            System.out.println();
-        }
-        }
+         
      }     
-    
+  
+        for(int i=0;i<follow.size();i++){
+                    if(nonterminal.contains(i)){
+                    System.out.print("Follow("+name.get(i)+")  : "); 
+                    System.out.print("{");
+                    for(int j=0;j<follow.get(i).size();j++){
+                        if(j!=0){System.out.print(",");}
+                        System.out.print(name.get((int)follow.get(i).get(j)));
+                    }
+                    System.out.print("}");
+                    System.out.println();
+                }
+        }
+        return follow;
+    }
 }

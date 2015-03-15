@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class Input{
     ArrayList<String> name = new ArrayList<String>(); 
     ArrayList<Integer> left = new ArrayList<Integer>(); 
-    ArrayList<ArrayList> right = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> right = new ArrayList<>();
     
 	Input(BufferedReader buff) throws IOException{
 		String line=null; 
@@ -38,7 +38,7 @@ public class Input{
 			for(int j=0;j<dataCutOr.length;j++){
 				
 				String[] eachPR = dataCutOr[j].split(" ");
-				//check replace right
+				//check replace right                               
 				left.add(idleft);
 				right.add(new ArrayList<Integer>());
 				for(int k=0;k<eachPR.length;k++) {
@@ -47,8 +47,8 @@ public class Input{
 						}	
 						int posright = name.indexOf(eachPR[k]);
 						int posleft = left.indexOf(idleft);
-						right.get(left.size()-1).add(posright);
-						
+                                                right.get(left.size()-1).add(posright);
+                                                
 					}
 				}
 		}
@@ -66,7 +66,7 @@ public class Input{
         public ArrayList<Integer> getLeft(){
             return left;
         }
-        public ArrayList<ArrayList> getRight(){
+        public ArrayList<ArrayList<Integer>> getRight(){
             return right;
         }
         
