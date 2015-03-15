@@ -23,9 +23,15 @@ public class Main {
         First step2 = new First(name, left, right);
         
         System.out.print("non-terminal :- ");
-        step2.findnonterminal(left,name);
+        ArrayList nonterminal = step2.findnonterminal(left,name);
         System.out.print("terminal :- ");
-        step2.findterminal(right,name);
+        ArrayList terminal = step2.findterminal(right,name);
+        ArrayList union = new ArrayList(terminal);
+        union.add("$");
+        union.addAll(nonterminal);
+        System.out.print("Union :- ");
+        System.out.println(union.toString());
+        
         ArrayList<ArrayList> first = step2.findingFirst(name,left,right);
         step2.findingFollow(name,left,right,first);
        

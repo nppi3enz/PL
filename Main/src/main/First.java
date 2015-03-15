@@ -50,10 +50,6 @@ public class First{
     
     static ArrayList<ArrayList> findingFirst(ArrayList name,ArrayList left,ArrayList<ArrayList> right)       
     {
-        ArrayList all = new ArrayList(nonterminal);
-        all.add("$");
-        all.addAll(terminal);
-        System.out.println("All :-"+all.toString());
         ArrayList<ArrayList> first = new ArrayList<>();
         
         for(int a =0;a<name.size();a++){  //nonterminals a,First(a)={a} terminals A,First(A)={}
