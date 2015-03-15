@@ -1,9 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -11,11 +10,12 @@ package main;
  */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws IOException{
+        FileReader fs = new FileReader("PL-C-Minus-1.txt");
+	BufferedReader buff = new BufferedReader(fs); 
+        Input data = new Input(buff); //send to scanner
+        data.findTerminal();
+        
     }
     
 }
