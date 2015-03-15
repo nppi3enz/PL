@@ -14,7 +14,17 @@ public class Main {
         FileReader fs = new FileReader("PL.txt");
 	BufferedReader buff = new BufferedReader(fs); 
         Input data = new Input(buff); //send to scanner
-        data.findTerminal();
+        ArrayList name = data.getName();
+        ArrayList left = data.getLeft();
+        ArrayList<ArrayList> right = data.getRight();
+        
+        First first = new First(name, left, right);
+        
+        System.out.print("terminal :- ");
+        first.findterminal(left,name);
+        System.out.print("non-terminal :- ");
+        first.findnonterminal(right,name);
+        first.findingFirst(name,left,right) ;
         
     }
     

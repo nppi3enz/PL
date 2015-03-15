@@ -4,17 +4,25 @@
  * and open the template in the editor.
  */
 package main;
-
-
 import java.util.ArrayList;
 import java.util.Stack;
-
-
-
-public class First {
+/**
+ *
+ * @author apple
+ */
+public class First{
     Stack v = new Stack();
-    static ArrayList<Integer> terminal = new ArrayList<Integer>();
+    static ArrayList<Integer> terminal =new ArrayList<Integer>();
     static ArrayList<Integer> nonterminal =new ArrayList<Integer>();
+    
+    private ArrayList<String> name;
+    private ArrayList<Integer> left; 
+    private ArrayList<ArrayList> right;
+    First(ArrayList<String> name, ArrayList<Integer> left,ArrayList<ArrayList> right){
+        this.left = left;
+        this.right = right;
+        this.name = name;
+    }
     
     static ArrayList findterminal(ArrayList left,ArrayList item){
         for(int a=0;a<left.size();a++){
@@ -30,10 +38,13 @@ public class First {
         for(int L=0;L<right.size();L++){
             
             for(int R=0;R<right.get(L).size();R++){
-                if (!terminal.contains(right.get(L).get(R)) && !nonterminal.contains(right.get(L).get(R))){
+                if (!terminal.contains(right.get(L).get(R))){
                     nonterminal.add((int)right.get(L).get(R));
                 }
+                
+                
             }
+            
         }
         System.out.println(nonterminal.toString());
         return nonterminal;
@@ -41,6 +52,7 @@ public class First {
     
     static void findingFirst(ArrayList name,ArrayList left,ArrayList<ArrayList> right)       
     {
+        
         ArrayList<ArrayList> first = new ArrayList<>();
         
         for(int a =0;a<name.size();a++){  //terminals a,First(a)={a} nonterminals A,First(A)={}
@@ -102,12 +114,15 @@ public class First {
                                     if(!first.get(addin).contains(first.get(findin).get(i))){
                                     first.get(addin).add(first.get(findin).get(i));}
                                     i++;
-                                    
                                 }
                         System.out.println("poisition : "+position);
+                    }   
                     }
-                    }
-                    }
+                }
+                    
+                //System.out.println(first.toString());
+
+            
         }
         for(int i=0;i<first.size();i++){
             if(terminal.contains(i)){
@@ -119,7 +134,8 @@ public class First {
             }
             System.out.print("}");
             System.out.println();
-        }}
+        }
+        }
     }
     
 }

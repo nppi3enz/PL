@@ -14,12 +14,12 @@ import java.util.Collections;
  *
  * @author apple
  */
-public class Input extends First{
+public class Input{
     ArrayList<String> name = new ArrayList<String>(); 
     ArrayList<Integer> left = new ArrayList<Integer>(); 
     ArrayList<ArrayList> right = new ArrayList<>();
     
-	public Input(BufferedReader buff) throws IOException{
+	Input(BufferedReader buff) throws IOException{
 		String line=null; 
 		
 		int count = 0;
@@ -61,22 +61,16 @@ public class Input extends First{
                     System.out.println(right.get(index));
 		}
         }
-        public void findTerminal() {
-            System.out.print("terminal :- ");
-            ArrayList terminal = super.findterminal(left,name);
-            System.out.print("non-terminal :- ");
-            ArrayList nonterminal = super.findnonterminal(right,name);
-            super.findingFirst(name,left,right) ;
-            
-            //re-arrange name
-            ArrayList newname = new ArrayList<Integer>(terminal); //copy terminal to newname
-            newname.add("$");
-            newname.addAll(nonterminal);
-            
-            System.out.println("new name = "+newname.toString());
-            
-            name = newname;
+        public ArrayList<String> getName(){
+            return name;
         }
+        public ArrayList<Integer> getLeft(){
+            return left;
+        }
+        public ArrayList<ArrayList> getRight(){
+            return right;
+        }
+        
 
 }
 	

@@ -9,6 +9,6 @@ package main;
  *
  * @author apple
  */
-public class Follow extends First{
+public class Follow{
     
 }
